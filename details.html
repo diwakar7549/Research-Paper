@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Paper Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">    <!-- ROBOTO  -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; 
+            margin: 0;
+            padding: 0;
+            background-color: #e9ecef; 
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+
+        .container {
+            background-color: #ffffff; 
+            padding: 40px;
+            border: 1px solid #ced4da; 
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            box-sizing: border-box; 
+            margin: 20px; 
+        }
+
+        h1 {
+            font-size: 2.5rem; 
+            color: #0056b3; 
+            border-bottom: 2px solid #0056b3; 
+            padding-bottom: 10px; 
+            text-align: center; 
+            margin-bottom: 30px;
+        }
+
+        p {
+            margin: 10px 0;
+            font-size: 1.1rem; 
+            line-height: 1.6;
+            color: #495057; 
+        }
+
+        strong {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .back-button {
+            display: block;
+            margin: 30px auto 0;
+            padding: 12px 24px;
+            background-color: #007bff; 
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            width: fit-content;
+            font-weight: 500; 
+        }
+
+        .back-button:hover {
+            background-color: #0056b3; 
+        }
+
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem; 
+            }
+
+            p {
+                font-size: 1rem; 
+            }
+
+            .container {
+                padding: 20px; 
+                margin: 10px; 
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem; 
+            }
+
+            .back-button {
+                padding: 10px 20px; 
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="title"></h1>
+        <p><strong>Authors:</strong> <span id="authors"></span></p>
+        <p><strong>Published:</strong> <span id="published"></span></p>
+        <p><strong>Summary:</strong> <span id="summary"></span></p>
+
+        <!-- Back Button -->
+        <a class="back-button" id="backButton">Back to Papers</a>
+    </div>
+
+    <script>
+        // Function to extract query parameters from the URL
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.slice(1); // Remove the "?" at the start
+            const pairs = queryString.split('&');
+            pairs.forEach(pair => {
+                const [key, value] = pair.split('=');
+                params[decodeURIComponent(key)] = decodeURIComponent(value);
+            });
+            return params;
+        }
+
+        // Retrieve the query parameters
+        const params = getQueryParams();
+
+        // Display the data
+        document.getElementById('title').textContent = params.title || "Title not available";
+        document.getElementById('authors').textContent = params.authors || "Authors not available";
+        document.getElementById('published').textContent = params.published || "Publication date not available";
+        document.getElementById('summary').textContent = params.summary || "Summary not available";
+
+        // Handle the Back button
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();  // Go back to the previous page
+        });
+    </script>
+
+</body>
+</html>

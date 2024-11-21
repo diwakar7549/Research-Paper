@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Paper Fetcher</title>
+</head>
+<body>
+
+<h2>Fetch Research Papers</h2>
+
+<!-- Dropdowns to select year and engineering branch -->
+<label for="year">Select Year:</label>
+<select id="year">
+    <option value="2024">2024</option>
+    <option value="2023">2023</option>
+    <option value="2022">2022</option>
+    <!-- Add more years as needed -->
+</select>
+
+<label for="branch">Select Branch:</label>
+<select id="branch">
+    <option value="computer_science">Computer Science</option>
+    <option value="electrical_engineering">Electrical Engineering</option>
+    <option value="mechanical_engineering">Mechanical Engineering</option>
+    <option value="civil_engineering">Civil Engineering</option>
+    <!-- Add more branches as needed -->
+</select>
+
+<button id="fetchPapers">Fetch Papers</button>
+
+<h3>Research Papers</h3>
+<ul id="papersList"></ul>
+
+<script>
+
+const API_KEY=b14bd03e7cb0006aef9a90bf51d1d1f7b943ebe9d13c57b5379c349fe0bb6bb0;
+
+// Simulated API URL (replace with actual API endpoint)
+const apiEndpoint = `https://serpapi.webscrapingapi.com/v1?api_key=${API_KEY}&engine=google_scholar&q=python`;
+
+// Function to fetch research papers based on year and branch
+async function fetchResearchPapers(year, branch) {
+    try {
+        const response = await fetch(`${apiEndpoint}?year=${year}&branch=${branch}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const papers = await response.json();
+        return papers;
+    } catch (error) {
+        console.error('Error fetching research papers:', error);
+    }
+}
+
+// Function to update the UI with fetched papers
+function updatePapersList(papers) {
+    const papersList = document.getElementById('papersList');
+    papersList.innerHTML = ''; // Clear any existing papers
+
+    if (papers && papers.length > 0) {
+        papers.forEach(paper => {
+            const li = document.createElement('li');
+            li.textContent = `${paper.title} by ${paper.author} (${paper.year})`;
+            papersList.appendChild(li);
+        });
+    } else {
+        papersList.innerHTML = '<li>No papers found for this selection</li>';
+    }
+}
+
+// Event listener for the "Fetch Papers" button
+document.getElementById('fetchPapers').addEventListener('click', async () => {
+    const year = document.getElementById('year').value;
+    const branch = document.getElementById('branch').value;
+
+    // Fetch papers from API
+    const papers = await fetchResearchPapers(year, branch);
+
+    // Update the UI with the fetched papers
+    updatePapersList(papers);
+});
+</script>
+
+</body>
+</html>
